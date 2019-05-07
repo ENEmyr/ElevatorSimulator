@@ -1,11 +1,36 @@
-from Elevator import Elevator
+import threading
+import time
 
-class testClass (Elevator):
+class testClass:
 
-    def __init__(self, threadName):
-        return super().__init__(threadName)
+    __instance = None
+    __threadLock = None
+
+    @staticmethod
+    def getInstance():
+        """ Static access method. """
+        if testClass.__instance == None:
+            testClass.__threadLock = threading.Lock()
+            testClass.__instance = testClass
+        return testClass.__instance
+
+    @staticmethod
+    def printTime():
+        return "time : {}".format(time.ctime(time.time()))
     
-
-if __name__ == "__main__":
-    t = testClass("helloWorld")
-    print(t.getName())
+    @staticmethod
+    def pararelCal(*args):
+        name=threading.current_thread().getName()
+        testClass.__threadLock.acquire()
+        print("I'm {} a data is : {}  {}".format(name, args[0], testClass.printTime()))
+        time.sleep(2)
+        testClass.__threadLock.release()
+        return
+    
+    def __init__(self):
+        """ Virtually private constructor """
+        if testClass.__instance != None:
+            testClass.__threadLock = None
+            testClass.__instance = None
+        raise Exception("Can't instantiate a singleton class.")
+    

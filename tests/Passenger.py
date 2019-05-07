@@ -43,6 +43,11 @@ class Passenger(PoissonDistribution):
 
     def requestForService(self):
         self.__elevatorInterface.enqueue(self.__intratenant)
+        return self
+
+    def reqSendWaitPassenger(self):
+        self.__nPassenger += self.__elevatorInterface.getToFloor(self.__floor)
+        return self
 
 
 if __name__ == "__main__":

@@ -6,6 +6,7 @@ class ElevatorHandler:
     __passenger_queue = dict() 
     __max_floor = 8
     __nElevator = 0
+    __waitForGetIntoFloor = dict()
 
     @staticmethod
     def getInstance():
@@ -41,6 +42,7 @@ class ElevatorHandler:
     def initPassengerQueue(nFloor):
         for i in range(1, nFloor + 1):
             ElevatorHandler.__passenger_queue.update({i : 0})
+            ElevatorHandler.__waitForGetIntoFloor.update({i : 0})
         return ElevatorHandler.__instance
     
     @staticmethod
@@ -55,25 +57,75 @@ class ElevatorHandler:
     def dequeue(currentFloor, isUp, elevatorID, size):
         """ Decide to let an elevator dequeue or not """
         meanFloor = ElevatorHandler.__nElevator - ElevatorHandler.__nElevator//2
+        nLeft = 0
         if meanFloor < elevatorID:
             #high floor
             if(isUp):
                 for i in range(currentFloor, ElevatorHandler.__max_floor + 1):
-                    pass
+                    nPassenger = ElevatorHandler.__passenger_queue[i]
+                    ElevatorHandler.__passenger_queue[i] = 0
+                    size -= nPassenger
+                    nLeft += nPassenger
+                    if(size <= 0):
+                        ElevatorHandler.__passenger_queue[i] = -size
+                        nLeft += size
+                        size = 0
+                    if size == 0:
+                        break
             else:
                 for i in range(currentFloor, 0, -1):
                     if i != 1 and i < meanFloor: continue
-                    pass
+                    nPassenger = ElevatorHandler.__passenger_queue[i]
+                    ElevatorHandler.__passenger_queue[i] = 0
+                    size -= nPassenger
+                    nLeft += nPassenger
+                    if(size <= 0):
+                        ElevatorHandler.__passenger_queue[i] = -size
+                        nLeft += size
+                        size = 0
+                    if size == 0:
+                        break
         else:
             #low floor
             if(isUp):
                 for i in range(currentFloor, meanFloor + 1):
-                    pass
+                    nPassenger = ElevatorHandler.__passenger_queue[i]
+                    ElevatorHandler.__passenger_queue[i] = 0
+                    size -= nPassenger
+                    nLeft += nPassenger
+                    if(size <= 0):
+                        ElevatorHandler.__passenger_queue[i] = -size
+                        nLeft += size
+                        size = 0
+                    if size == 0:
+                        break
             else:
                 for i in range(currentFloor, 0, -1):
-                    pass
-        return
+                    nPassenger = ElevatorHandler.__passenger_queue[i]
+                    ElevatorHandler.__passenger_queue[i] = 0
+                    size -= nPassenger
+                    nLeft += nPassenger
+                    if(size <= 0):
+                        ElevatorHandler.__passenger_queue[i] = -size
+                        nLeft += size
+                        size = 0
+                    if size == 0:
+                        break
+        return nLeft
+    
+    @staticmethod
+    def servFloor(floor, nPassenger):
+        """ Use by Elevator class to serv a passenger on its room into floor """
+        ElevatorHandler.__waitForGetIntoFloor[floor] += nPassenger
+        return ElevatorHandler.__instance
 
+    @staticmethod
+    def getToFloor(floor):
+        """ Use by Passenger class to receive waiting passenger into its floor """
+        nPassenger = ElevatorHandler.__waitForGetIntoFloor[floor]
+        ElevatorHandler.__waitForGetIntoFloor[floor] = 0
+        return nPassenger
+    
     def __init__(self):
         """ Virtually private constructor """
         if ElevatorHandler.__instance != None:
