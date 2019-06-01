@@ -1,19 +1,12 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\keypg\Documents\Coding\Python\ElevatorSimulator\ElevatorUI.ui'
+# Form implementation generated from reading ui file 'c:\Users\keypg\Documents\Coding\Python\ElevatorSimulator\ElevatorUI.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import importlib.util
-spec = importlib.util.spec_from_file_location("GraphCanvas", "bin/GraphCanvas.py")
-impCanvas = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(impCanvas)
-
-#self.graphCanvas = impCanvas.GraphCanvas(self.gridLayoutWidget_2, width = 8, height = 8)
-#self.graphArea.addWidget(self.graphCanvas, 0, 0, 1, 1)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -223,7 +216,7 @@ class Ui_MainWindow(object):
         self.populationTable.verticalHeader().setStretchLastSection(True)
         self.verticalLayout_8.addWidget(self.populationTable)
         self.gridLayout_7.addLayout(self.verticalLayout_8, 1, 0, 1, 1)
-        self.graphCanvas = impCanvas.GraphCanvas(self.graphFrame, width = 8, height = 8)
+        self.graphCanvas = QtWidgets.QWidget(self.graphFrame)
         self.graphCanvas.setMinimumSize(QtCore.QSize(0, 400))
         self.graphCanvas.setObjectName("graphCanvas")
         self.gridLayout_7.addWidget(self.graphCanvas, 0, 0, 1, 1)
@@ -562,13 +555,4 @@ class Ui_MainWindow(object):
         self.labelTo.setText(_translate("MainWindow", "To"))
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
         self.actionClose.setText(_translate("MainWindow", "Close"))
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
 

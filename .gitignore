@@ -1,3 +1,6 @@
 __pycache__
 *.ui
 .vscode
+tests/test.py
+tests/test_animation.py
+tests/testClass.py

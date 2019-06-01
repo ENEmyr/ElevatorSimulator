@@ -1,4 +1,3 @@
-
 class ElevatorHandler:
 
     __instance = None
@@ -47,15 +46,16 @@ class ElevatorHandler:
     
     @staticmethod
     def enqueue(intratenant):
+        """ Used by passenger """
         if len(ElevatorHandler.__passenger_queue) == 0:
-            raise Exception("passenger_queue is empty.")
+            raise Exception("passenger_queue is empty, please initialize.")
         for i in range(1, len(intratenant) + 1):
             ElevatorHandler.__passenger_queue[i] += intratenant[i]
         return ElevatorHandler.__instance
 
     @staticmethod
     def dequeue(currentFloor, isUp, elevatorID, size):
-        """ Decide to let an elevator dequeue or not """
+        """ Decide to let an elevator dequeue or not, use by elevators."""
         meanFloor = ElevatorHandler.__nElevator - ElevatorHandler.__nElevator//2
         nLeft = 0
         if meanFloor < elevatorID:
