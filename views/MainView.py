@@ -45,20 +45,18 @@ class MainView(QMainWindow):
     
     @pyqtSlot(int, int)
     def moveE(self, id, value):
-        numberInput = (self.__ui.inputMax.text()).split(',')
         maxHeight = self.__ui.display_view.height() - 20
-        nFloor = int(numberInput[1])
+        nFloor = int(self.__ui.nFloor.currentText())
         if value > 0:
             self.__elevatorObj[id].moveBy(0, -maxHeight//nFloor)
         else:
             self.__elevatorObj[id].moveBy(0, maxHeight//nFloor)
-
+    
     @pyqtSlot(bool)
     def startBtnClicked(self, value):
-        if(self.__ui.inputMax.text() == ""): return
-        numberInput = (self.__ui.inputMax.text()).split(',')
-        nElevator = int(numberInput[0])
-        nFloor = int(numberInput[1])
+        #if(self.__ui.inputMax.text() == ""): return
+        nElevator = int(self.__ui.nElevator.currentText())
+        nFloor = int(self.__ui.nFloor.currentText())
         temp = 0
         temp2 = 0
         maxWidth = self.__ui.display_view.width() - 20
@@ -82,32 +80,43 @@ class MainView(QMainWindow):
         # Horizontal lines
         for i in range(1, 2+nFloor):
             if i < nFloor+1:
-                txt = self.__scene.addText("F\n{}".format(nFloor+1 - i))
-                txt.setPos(maxWidth//nElevator//4//4, temp + maxHeight//nFloor//4)
-                txt_pass = self.__scene.addText("P:\n0")
-                txt_pass.setPos(maxWidth//nElevator//4, temp + maxHeight//nFloor//4)
+                txt = self.__scene.addText("F: {}".format(nFloor+1 - i))
+                txt.setPos(maxWidth//nElevator//4//4, temp + maxHeight//nFloor//2)
+                txt_pass = self.__scene.addText("P: 0")
+                txt_pass.setPos(maxWidth//nElevator//4, temp + maxHeight//nFloor//2)
                 self.__passenger_txt.insert(0, txt_pass)
             self.__scene.addLine(0, temp, maxWidth, temp)
             temp += maxHeight//nFloor 
         #old_text = self.__ui.inputMax.text()
         #self.__ui.inputMax.setText(old_text + "Clicked!")
         self.__ui.inputMax.setReadOnly(True) 
+        self.__ui.inputLambda.setReadOnly(True) 
+        self.__ui.inputFrom.setReadOnly(True) 
+        self.__ui.inputTo.setReadOnly(True) 
+        self.__ui.nFloor.setEnabled(False) 
+        self.__ui.nElevator.setEnabled(False) 
+        self.__ui.nDinning.setEnabled(False) 
 
     @pyqtSlot(bool)
     def pauseBtnClicked(self, value):
-        numberInput = (self.__ui.inputMax.text()).split(',')
         maxHeight = self.__ui.display_view.height() - 20
-        nFloor = int(numberInput[1])
+        nFloor = int(self.__ui.nFloor.currentText())
         #self.__ui.inputMax.setText(str(item_lst[0]))
         #item_lst[0].setBrush(self.__blueBrush)
         #self.__elevatorObj[0].childItems()[0].setPlainText("test")
-        self.__passenger_txt[2].setPlainText("P.S.G:\n2")
+        #self.__passenger_txt[2].setPlainText("P.S.G:\n2")
         self.__elevatorObj[0].moveBy(0, -maxHeight//nFloor)
         #item_lst[0].setRect(new_x, new_y, 200, 200)
 
     @pyqtSlot(bool)
     def stopBtnClicked(self, value):
         self.__ui.inputMax.setReadOnly(False) 
+        self.__ui.inputLambda.setReadOnly(False) 
+        self.__ui.inputFrom.setReadOnly(False) 
+        self.__ui.inputTo.setReadOnly(False) 
+        self.__ui.nFloor.setEnabled(True) 
+        self.__ui.nElevator.setEnabled(True) 
+        self.__ui.nDinning.setEnabled(True) 
 
     @pyqtSlot(bool)
     def close(self, value):

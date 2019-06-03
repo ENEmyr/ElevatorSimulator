@@ -36,6 +36,8 @@ class PoissonDistribution:
     
     def getMostFreq(self):
         count = np.bincount(self.__sampleData)
+        if len(count) == 0:
+            return 0
         return np.argmax(count)
 
     def showHistrogram(self):

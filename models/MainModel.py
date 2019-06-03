@@ -59,6 +59,7 @@ class MainModel(QObject):
         """ in this method will create 1+nElevator threads, 1 for Passenger Obj and others for Elevator Obj """
         #nElevator = open("file", r)
         thread1 = threading.Thread(target=self.threadFunc, args=(10,))
+        thread1.start()
 
     def __init__(self):
         super().__init__()
