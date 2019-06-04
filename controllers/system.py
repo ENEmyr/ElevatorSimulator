@@ -36,6 +36,8 @@ if __name__ == "__main__":
             passengers[n].getInFloor()
         time.sleep(0.2)
     
+    passengers[1].getInFloor()
+    
     print("\n\nFloor {} passenger {}\n".format(1, passengers[1]._Passenger__maxPassenger))
     print("\n\nWaiting: {}".format(elevatorHandler.getQueue()))
     # passengers[0].genArrival().transfer().sendToQueue()

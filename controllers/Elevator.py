@@ -164,7 +164,7 @@ class Elevator:
 
     def loadPassenger(self):
         """ Load passenger from building to the elevator """
-        passenger = self.__elevatorHandler.dequeue(self.getType(), self.__currFloor, self.__isUp, self.__maxCapacity - self.__currCapacity)
+        passenger = self.__elevatorHandler.dequeue(self.__currFloor, self.__maxCapacity - self.__currCapacity)
         capacity = 0
         for d in passenger:
             lst = d.keys()

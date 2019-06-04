@@ -1,7 +1,6 @@
 class ElevatorHandler:
 
     __instance = None
-    __user = ""
     __passenger_queue = [] 
     __max_floor = 0
     __nElevator = 0
@@ -12,11 +11,6 @@ class ElevatorHandler:
         """ Static access method. """
         if ElevatorHandler.__instance == None:
             ElevatorHandler.__instance = ElevatorHandler
-        return ElevatorHandler.__instance
-
-    @staticmethod
-    def setUser(msg):
-        ElevatorHandler.__User = msg
         return ElevatorHandler.__instance
     
     @staticmethod
@@ -49,10 +43,6 @@ class ElevatorHandler:
         return ElevatorHandler.__max_floor
     
     @staticmethod
-    def getUser():
-        return ElevatorHandler.__User
-    
-    @staticmethod
     def enqueue(fromFloor:int, intratenant:dict):
         """ Used by passenger """
         if ElevatorHandler.__max_floor == 0:
@@ -62,7 +52,7 @@ class ElevatorHandler:
         return ElevatorHandler.__instance
 
     @staticmethod
-    def dequeue(eType, currentFloor, isUp, size):
+    def dequeue(currentFloor, size):
         """ Decide to let an elevator dequeue or not, use by elevators."""
         #thread.accquire()
         if ElevatorHandler.__max_floor == 0:
@@ -70,43 +60,20 @@ class ElevatorHandler:
         meanFloor = ElevatorHandler.__max_floor//2
         leftList = []
         for tFloor in ElevatorHandler.__passenger_queue[currentFloor - 1]:
-            # if this elevator is low floor serv, then break when the floor over the limit
-            if eType == 0 and tFloor > meanFloor: break
-            # if this elevator is high floor serv and the direction is going down, then break when the floor over or equal to mean floor
-            if eType == 1 and not isUp and tFloor >= currentFloor: break
-            # if this elevator is high floor serv and the direction is going down, then skip when the floor under mean floor but not equal to 1
-            if eType == 1 and not isUp and tFloor <= meanFloor and tFloor != 1: continue
-            # if this elevator is high floor serv and the direction is going up, then skip when the floor under mean floor but not equal to 1
-            if eType == 1 and isUp and currentFloor-1 != 0 and tFloor < meanFloor: continue
-            if isUp:
-                nLeft = ElevatorHandler.__passenger_queue[currentFloor - 1][tFloor]
-                if nLeft == 0 : continue # if this floor have no one want to go
-                if size - nLeft < 0:
-                    ElevatorHandler.__passenger_queue[currentFloor - 1][tFloor] = nLeft - size
-                    nLeft = size
-                    size = 0
-                    leftList.append(dict({tFloor : nLeft}))
-                    break
-                else:
-                    ElevatorHandler.__passenger_queue[currentFloor - 1][tFloor] = 0
-                    size -= nLeft
-                    leftList.append(dict({tFloor : nLeft}))
-                    if size == 0:
-                        break
+            nLeft = ElevatorHandler.__passenger_queue[currentFloor - 1][tFloor]
+            if nLeft == 0 : continue # if this floor have no one want to go
+            if size - nLeft < 0:
+                ElevatorHandler.__passenger_queue[currentFloor - 1][tFloor] = nLeft - size
+                nLeft = size
+                size = 0
+                leftList.append(dict({tFloor : nLeft}))
+                break
             else:
-                nLeft = ElevatorHandler.__passenger_queue[currentFloor - 1][tFloor]
-                if size - nLeft < 0:
-                    ElevatorHandler.__passenger_queue[currentFloor - 1][tFloor] = nLeft - size
-                    nLeft = size
-                    size = 0
-                    leftList.append(dict({tFloor : nLeft}))
+                ElevatorHandler.__passenger_queue[currentFloor - 1][tFloor] = 0
+                size -= nLeft
+                leftList.append(dict({tFloor : nLeft}))
+                if size == 0:
                     break
-                else:
-                    ElevatorHandler.__passenger_queue[currentFloor - 1][tFloor] = 0
-                    size -= nLeft
-                    leftList.append(dict({tFloor : nLeft}))
-                    if size == 0:
-                        break
         #thread.release()
         return leftList
     
