@@ -11,7 +11,6 @@ class PoissonDistribution:
         self.__lam = lam
         self.__k = k
         self.__sampleData = None
-        return self
     
     def setLam(self, lam):
         self.__lam = lam

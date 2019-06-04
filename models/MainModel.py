@@ -8,6 +8,7 @@ class MainModel(QObject):
     stopBtn_changed = pyqtSignal(bool)
     pauseBtn_changed = pyqtSignal(bool)
     windowExit_changed = pyqtSignal(bool)
+    aboutUs_changed  = pyqtSignal(bool)
     moveElevator_changed = pyqtSignal(int, int)
     threadPool = QThreadPool()
 
@@ -15,8 +16,10 @@ class MainModel(QObject):
         for i in range(1, nTime):
             if i < 11:
                 self.moveElevator_changed.emit(int(0), int(1))
+                self.moveElevator_changed.emit(int(1), int(1))
             else:
                 self.moveElevator_changed.emit(int(0), int(-1))
+                self.moveElevator_changed.emit(int(1), int(-1))
             time.sleep(1)
 
     @property
@@ -49,6 +52,10 @@ class MainModel(QObject):
     @property
     def windowExit(self):
         self.windowExit_changed.emit(True)
+
+    @property
+    def aboutUs(self):
+        self.aboutUs_changed.emit(True)
     
     def ev(self, l):
         print("{} {}".format(l[0], l[1]))
@@ -60,6 +67,7 @@ class MainModel(QObject):
         #nElevator = open("file", r)
         thread1 = threading.Thread(target=self.threadFunc, args=(10,))
         thread1.start()
+        #self.moveElevator_changed.emit(0, 1)
 
     def __init__(self):
         super().__init__()

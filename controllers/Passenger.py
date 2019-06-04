@@ -8,13 +8,9 @@ class Passenger(PoissonDistribution):
     __limit = 0 
     __currentTime = 1
     __maxFloor = 0
-    __maxPassenger = 0
     __currentFloor = 0
-    __lam = []
     __defaultLam = False
-    __eachFloor = dict()
     __arrivalRate = 0 
-    __totDown, __totUp = dict(), dict()
     __elevatorHandler = None
 
     def __init__(self, 
@@ -24,6 +20,7 @@ class Passenger(PoissonDistribution):
                  limit: int = 12,
                  lam: list = []
                  ):
+        self.__lam = []
         if len(lam) < limit - 1: 
             self.__lam.append(randrange(85, 101))
             self.__defaultLam = True
@@ -31,12 +28,13 @@ class Passenger(PoissonDistribution):
             self.__lam = lam
         l = self.__lam[0] * passenger // 100
         super().__init__(l, passenger)
+        self.__eachFloor = dict()
         self.__limit = limit
         self.__currentFloor = currentFloor
         self.__maxFloor = maxFloor
         self.__maxPassenger = passenger
         self.__eachFloor.update({i : 0 for i in range(1, maxFloor + 1)})
-        self.__eachFloor[currentFloor] = self.__maxPassenger
+        self.__eachFloor[currentFloor] = passenger 
         self.__elevatorHandler = ElevatorHandler.getInstance()
     
     def setTime(self, time: int):
@@ -129,6 +127,11 @@ class Passenger(PoissonDistribution):
             if i == self.__currentFloor: continue
             self.__eachFloor[i] = 0
     
+    def getInFloor(self):
+        nPassenger = self.__elevatorHandler.getToFloor(self.__currentFloor)
+        self.__eachFloor[self.__currentFloor] += nPassenger
+        self.__maxPassenger += nPassenger
+    
 #     def run(self):
 #         while self.__currentTime < self.__limit:
 #             self.genArrival().transfer().show()
@@ -136,8 +139,10 @@ class Passenger(PoissonDistribution):
 #             #self.__elevatorHandler.enqueue(self.__currentFloor, trans)
 #             time.sleep(0.3)
     
-#     def getEachFloor(self):
-#         return self.__eachFloor
+    def getEachFloor(self):
+        return self.__eachFloor
+    def getPassenger(self):
+        return self.__eachFloor[self._Passenger__currentFloor]
     
 
 # if __name__ == "__main__":

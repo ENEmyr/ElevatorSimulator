@@ -62,21 +62,22 @@ class ElevatorHandler:
         return ElevatorHandler.__instance
 
     @staticmethod
-    def dequeue(elevatorID, currentFloor, isUp, size):
+    def dequeue(eType, currentFloor, isUp, size):
         """ Decide to let an elevator dequeue or not, use by elevators."""
+        #thread.accquire()
         if ElevatorHandler.__max_floor == 0:
             raise Exception("passenger_queue is empty, please initialize max floor.")
-        meanFloor = ElevatorHandler.__max_floor - ElevatorHandler.__max_floor//2
+        meanFloor = ElevatorHandler.__max_floor//2
         leftList = []
         for tFloor in ElevatorHandler.__passenger_queue[currentFloor - 1]:
             # if this elevator is low floor serv, then break when the floor over the limit
-            if elevatorID < meanFloor and tFloor > meanFloor: break
+            if eType == 0 and tFloor > meanFloor: break
             # if this elevator is high floor serv and the direction is going down, then break when the floor over or equal to mean floor
-            if elevatorID >= meanFloor and not isUp and tFloor >= meanFloor: break
+            if eType == 1 and not isUp and tFloor >= currentFloor: break
             # if this elevator is high floor serv and the direction is going down, then skip when the floor under mean floor but not equal to 1
-            if elevatorID >= meanFloor and not isUp and tFloor < meanFloor and tFloor != 1: continue
+            if eType == 1 and not isUp and tFloor <= meanFloor and tFloor != 1: continue
             # if this elevator is high floor serv and the direction is going up, then skip when the floor under mean floor but not equal to 1
-            if elevatorID >= meanFloor and isUp and currentFloor-1 != 0 and tFloor <= meanFloor: continue
+            if eType == 1 and isUp and currentFloor-1 != 0 and tFloor < meanFloor: continue
             if isUp:
                 nLeft = ElevatorHandler.__passenger_queue[currentFloor - 1][tFloor]
                 if nLeft == 0 : continue # if this floor have no one want to go
@@ -97,6 +98,7 @@ class ElevatorHandler:
                 if size - nLeft < 0:
                     ElevatorHandler.__passenger_queue[currentFloor - 1][tFloor] = nLeft - size
                     nLeft = size
+                    size = 0
                     leftList.append(dict({tFloor : nLeft}))
                     break
                 else:
@@ -105,6 +107,7 @@ class ElevatorHandler:
                     leftList.append(dict({tFloor : nLeft}))
                     if size == 0:
                         break
+        #thread.release()
         return leftList
     
     @staticmethod
@@ -136,12 +139,12 @@ class ElevatorHandler:
 #     e.setUser('E')
 #     e.setNElevator(3).setMaxFloor(6)
 
-#     print(e.getWait())
-#     e.servFloor(2, 25)
-#     print(e.getWait())
-#     print("\n\n")
-#     e.getToFloor(2)
-#     print(e.getWait())
+#     #  print(e.getWait())
+#     #  e.servFloor(2, 25)
+#     #  print(e.getWait())
+#     #  print("\n\n")
+#     #  e.getToFloor(2)
+#     #  print(e.getWait())
 
 #     e.enqueue(3, {5:8, 1:3, 2:4})
 #     e.enqueue(1, {5:7, 2:2, 3:1, 4:2})
@@ -149,8 +152,8 @@ class ElevatorHandler:
 #     e.enqueue(4, {5:2, 6:4, 1:7})
 #     queue = e.getqueue()
 #     print(queue)
-#     print(e.getuser())
-#     dequeue = e.dequeue(2, 3, false, size)
+#     #print(e.getuser())
+#     dequeue = e.dequeue(2, 3, False, size)
 #     queue = e.getqueue()
 #     print(queue)
 #     print(dequeue)

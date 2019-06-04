@@ -25,3 +25,6 @@ class MainController(QObject):
     
     def windowExit(self):
         self.__model.windowExit
+    
+    def aboutUs(self):
+        self.__model.aboutUs

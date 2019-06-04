@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\keypg\Documents\Coding\Python\Temp\views\UI\main.ui'
+# Form implementation generated from reading ui file 'c:\Users\keypg\Documents\Coding\Python\ElevatorSimulator\views\UI\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -51,10 +51,10 @@ class Ui_MainWindow(object):
         self.controlFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.controlFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.controlFrame.setObjectName("controlFrame")
-        self.gridLayout_8 = QtWidgets.QGridLayout(self.controlFrame)
-        self.gridLayout_8.setObjectName("gridLayout_8")
-        self.verticalLayout_14 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_14.setObjectName("verticalLayout_14")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.controlFrame)
+        self.gridLayout_3.setObjectName("gridLayout_3")
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_3.addItem(spacerItem2, 0, 0, 1, 1)
         self.labelClock = QtWidgets.QLabel(self.controlFrame)
         font = QtGui.QFont()
         font.setBold(True)
@@ -62,18 +62,12 @@ class Ui_MainWindow(object):
         self.labelClock.setFont(font)
         self.labelClock.setAlignment(QtCore.Qt.AlignCenter)
         self.labelClock.setObjectName("labelClock")
-        self.verticalLayout_14.addWidget(self.labelClock)
-        self.clock = QtWidgets.QTimeEdit(self.controlFrame)
-        self.clock.setEnabled(True)
-        self.clock.setInputMethodHints(QtCore.Qt.ImhPreferNumbers)
-        self.clock.setWrapping(False)
-        self.clock.setFrame(False)
-        self.clock.setAlignment(QtCore.Qt.AlignCenter)
-        self.clock.setReadOnly(False)
-        self.clock.setButtonSymbols(QtWidgets.QAbstractSpinBox.NoButtons)
-        self.clock.setAccelerated(False)
-        self.clock.setObjectName("clock")
-        self.verticalLayout_14.addWidget(self.clock)
+        self.gridLayout_3.addWidget(self.labelClock, 1, 0, 1, 1)
+        self.lineEdit = QtWidgets.QLineEdit(self.controlFrame)
+        self.lineEdit.setAlignment(QtCore.Qt.AlignCenter)
+        self.lineEdit.setReadOnly(True)
+        self.lineEdit.setObjectName("lineEdit")
+        self.gridLayout_3.addWidget(self.lineEdit, 2, 0, 1, 1)
         self.horizontalLayout_19 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_19.setObjectName("horizontalLayout_19")
         self.labelSlider = QtWidgets.QLabel(self.controlFrame)
@@ -84,7 +78,7 @@ class Ui_MainWindow(object):
         self.slider.setOrientation(QtCore.Qt.Horizontal)
         self.slider.setObjectName("slider")
         self.horizontalLayout_19.addWidget(self.slider)
-        self.verticalLayout_14.addLayout(self.horizontalLayout_19)
+        self.gridLayout_3.addLayout(self.horizontalLayout_19, 3, 0, 1, 1)
         self.horizontalLayout_20 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_20.setObjectName("horizontalLayout_20")
         self.startBtn = QtWidgets.QPushButton(self.controlFrame)
@@ -96,10 +90,7 @@ class Ui_MainWindow(object):
         self.stopBtn = QtWidgets.QPushButton(self.controlFrame)
         self.stopBtn.setObjectName("stopBtn")
         self.horizontalLayout_20.addWidget(self.stopBtn)
-        self.verticalLayout_14.addLayout(self.horizontalLayout_20)
-        self.gridLayout_8.addLayout(self.verticalLayout_14, 1, 0, 1, 1)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_8.addItem(spacerItem2, 0, 0, 1, 1)
+        self.gridLayout_3.addLayout(self.horizontalLayout_20, 4, 0, 1, 1)
         self.gridLayout_5.addWidget(self.controlFrame, 1, 1, 1, 1)
         self.graphFrame = QtWidgets.QFrame(self.frame)
         self.graphFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -390,7 +381,10 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
         self.actionClose = QtWidgets.QAction(MainWindow)
         self.actionClose.setObjectName("actionClose")
+        self.actionAbout_us = QtWidgets.QAction(MainWindow)
+        self.actionAbout_us.setObjectName("actionAbout_us")
         self.menuMenu.addAction(self.actionClose)
+        self.menuMenu.addAction(self.actionAbout_us)
         self.menubar.addAction(self.menuMenu.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -400,6 +394,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "ElevatorSimulator"))
         self.labelClock.setText(_translate("MainWindow", "Time"))
+        self.lineEdit.setPlaceholderText(_translate("MainWindow", "7:00"))
         self.labelSlider.setText(_translate("MainWindow", "Speed : "))
         self.startBtn.setText(_translate("MainWindow", "Start"))
         self.pauseBtn.setText(_translate("MainWindow", "Pause"))
@@ -501,4 +496,5 @@ class Ui_MainWindow(object):
         self.labelTo.setText(_translate("MainWindow", "To"))
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
         self.actionClose.setText(_translate("MainWindow", "Close"))
+        self.actionAbout_us.setText(_translate("MainWindow", "About us"))
 

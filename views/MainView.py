@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QGraphicsView, QGraphicsScene, QGraphicsItem
+from PyQt5.QtWidgets import QMainWindow, QGraphicsView, QGraphicsScene, QGraphicsItem, QMessageBox
 from PyQt5.QtCore import pyqtSlot, QCoreApplication, Qt
 from PyQt5.QtGui import QPainter, QBrush, QPen
 from views.mainUi import Ui_MainWindow
@@ -35,13 +35,15 @@ class MainView(QMainWindow):
         self.__ui.pauseBtn.clicked.connect(self.__controller.pauseClick)
         self.__ui.stopBtn.clicked.connect(self.__controller.stopClick)
         self.__ui.actionClose.triggered.connect(self.__controller.windowExit)
+        self.__ui.actionAbout_us.triggered.connect(self.__controller.aboutUs)
 
         # listen to model event signals
         self.__model.startBtn_changed.connect(self.startBtnClicked)
         self.__model.pauseBtn_changed.connect(self.pauseBtnClicked)
         self.__model.stopBtn_changed.connect(self.stopBtnClicked)
         self.__model.windowExit_changed.connect(self.close)
-        #self.__model.moveElevator_changed.connect(self.moveE)
+        self.__model.aboutUs_changed.connect(self.about)
+        self.__model.moveElevator_changed.connect(self.moveE)
     
     @pyqtSlot(int, int)
     def moveE(self, id, value):
@@ -122,3 +124,16 @@ class MainView(QMainWindow):
     def close(self, value):
         if value:
             QCoreApplication.quit()
+
+    @pyqtSlot(bool)
+    def about(self, value):
+        memberLst = """
+                                Member\n
+            Mr.Kantachat Janya          60090500402\t\t\n
+            Mr.Patipon Buason           60090500412\t\t\n
+            Mr.Puksanon Posang          60090500413\t\t\n
+            Mr.Rawit Praditrungchan     60090500416\t\t\n
+            Mr.Wongsakorn Pakinang      60090500420\t\t\n
+            Mr.Sanhapas Arunruviwat     60090500450\t\t\n
+        """
+        QMessageBox.about(self, "Member list", memberLst)
