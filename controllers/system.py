@@ -29,7 +29,7 @@ if __name__ == "__main__":
         print("\n {}".format('='*20))
         for j in range(1, 20):
             for n in range(len(elevators)):
-                #print(" >> Lift {} now in floor {}\n".format(elevators[n].getID(), elevators[n].getCurrFloor()))
+                print(" >> Lift {} now in floor {}\n".format(elevators[n].getID(), elevators[n].getCurrFloor()))
                 elevators[n].loadPassenger().move()
                 elevators[n].unloadPassenger()
         for n in range(len(passengers)):

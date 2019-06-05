@@ -11,15 +11,15 @@ class MainModel(QObject):
     aboutUs_changed  = pyqtSignal(bool)
     moveElevator_changed = pyqtSignal(int, int)
     threadPool = QThreadPool()
+    breakThread = False
 
     def threadFunc(self, nTime):
         for i in range(1, nTime):
-            if i < 11:
+            if self.breakThread: break
+            if i < nTime//2:
                 self.moveElevator_changed.emit(int(0), int(1))
-                self.moveElevator_changed.emit(int(1), int(1))
             else:
                 self.moveElevator_changed.emit(int(0), int(-1))
-                self.moveElevator_changed.emit(int(1), int(-1))
             time.sleep(1)
 
     @property
@@ -46,6 +46,7 @@ class MainModel(QObject):
 
     @stopBtn.setter
     def stopBtn(self, value):
+        self.breakThread = True
         self.__stopBtn = value
         self.stopBtn_changed.emit(bool(value))
 
